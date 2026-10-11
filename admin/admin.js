@@ -1,5 +1,5 @@
 const suggestionList = document.getElementById('suggestionList');
-const adminStatus = document.getElementById('adminStatus');
+const suggestionStatus = document.getElementById('suggestionStatus');
 const availableStatuses = [
   ['new', 'Nouveau'],
   ['reviewing', 'En cours'],
@@ -47,21 +47,16 @@ function createSuggestionCard(suggestion) {
     saveButton.disabled = true;
 
     try {
-      const response = await fetch('/api/admin/suggestions', {
+      const result = await adminApiRequest('/api/admin/suggestions', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: suggestion.id, status: statusSelect.value })
       });
-      const result = await response.json();
 
-      if (!response.ok) {
-        throw new Error(result.error || 'Impossible de mettre à jour le statut.');
-      }
-
-      adminStatus.textContent = 'Statut mis à jour.';
+      suggestionStatus.textContent = 'Statut mis à jour.';
       suggestion.status = statusSelect.value;
     } catch (error) {
-      adminStatus.textContent = error.message;
+      suggestionStatus.textContent = error.message;
     } finally {
       saveButton.disabled = false;
     }
@@ -78,23 +73,18 @@ function createSuggestionCard(suggestion) {
     deleteButton.disabled = true;
 
     try {
-      const response = await fetch(`/api/admin/suggestions?id=${encodeURIComponent(suggestion.id)}`, {
+      await adminApiRequest(`/api/admin/suggestions?id=${encodeURIComponent(suggestion.id)}`, {
         method: 'DELETE'
       });
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Impossible de supprimer la suggestion.');
-      }
 
       card.remove();
-      adminStatus.textContent = 'Suggestion supprimée.';
+      suggestionStatus.textContent = 'Suggestion supprimée.';
 
       if (!suggestionList.querySelector('.admin-card')) {
         suggestionList.append(createTextElement('p', 'admin-empty', 'Aucune suggestion pour le moment.'));
       }
     } catch (error) {
-      adminStatus.textContent = error.message;
+      suggestionStatus.textContent = error.message;
       deleteButton.disabled = false;
     }
   });
@@ -106,12 +96,7 @@ function createSuggestionCard(suggestion) {
 
 async function loadSuggestions() {
   try {
-    const response = await fetch('/api/admin/suggestions', { cache: 'no-store' });
-    const result = await response.json();
-
-    if (!response.ok) {
-      throw new Error(result.error || 'Impossible de charger les suggestions.');
-    }
+    const result = await adminApiRequest('/api/admin/suggestions', { cache: 'no-store' });
 
     suggestionList.replaceChildren();
 
@@ -123,9 +108,9 @@ async function loadSuggestions() {
       });
     }
 
-    adminStatus.textContent = `${result.suggestions.length} suggestion(s) chargée(s).`;
+    suggestionStatus.textContent = `${result.suggestions.length} suggestion(s) chargée(s).`;
   } catch (error) {
-    adminStatus.textContent = error.message;
+    suggestionStatus.textContent = error.message;
   }
 }
 

@@ -13,13 +13,45 @@
     <header class="admin-header">
       <div>
         <p class="eyebrow">Espace privé</p>
-        <h1>Suggestions reçues</h1>
+        <h1>Administration</h1>
       </div>
       <a class="secondary-btn" href="/">Retour au site</a>
     </header>
-    <p id="adminStatus" class="admin-status" role="status" aria-live="polite">Chargement des suggestions…</p>
-    <section id="suggestionList" class="admin-list" aria-label="Suggestions"></section>
+    <section class="admin-section">
+      <p class="eyebrow">Ressources</p>
+      <h2>Ajouter un PDF</h2>
+      <p class="admin-description">Les nouveaux fichiers seront publiés dans les ressources du site. Taille maximale : 25 Mo.</p>
+      <form id="pdfUploadForm" class="pdf-upload-form">
+        <label>
+          Titre
+          <input name="title" type="text" maxlength="100" placeholder="Ex. Résumé des nombres complexes" required>
+        </label>
+        <label>
+          Matière
+          <input name="subject" type="text" maxlength="80" placeholder="Ex. Mathématiques" required>
+        </label>
+        <label>
+          Description (facultatif)
+          <textarea name="description" rows="2" maxlength="240" placeholder="Quelques mots sur le document"></textarea>
+        </label>
+        <label>
+          Fichier PDF
+          <input name="file" type="file" accept="application/pdf,.pdf" required>
+        </label>
+        <button id="pdfUploadButton" class="primary-btn" type="submit">Téléverser et publier</button>
+      </form>
+      <p id="pdfUploadStatus" class="admin-status" role="status" aria-live="polite"></p>
+      <section id="pdfAdminList" class="admin-list" aria-label="PDF publiés"></section>
+    </section>
+    <section class="admin-section">
+      <p class="eyebrow">Suggestions</p>
+      <h2>Suggestions reçues</h2>
+      <p id="suggestionStatus" class="admin-status" role="status" aria-live="polite">Chargement des suggestions…</p>
+      <section id="suggestionList" class="admin-list" aria-label="Suggestions"></section>
+    </section>
   </main>
+  <script src="admin-api.js"></script>
   <script src="admin.js"></script>
+  <script src="admin-pdfs.js"></script>
 </body>
 </html>

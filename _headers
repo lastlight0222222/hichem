@@ -6,3 +6,6 @@
 
 /admin/*
   X-Robots-Tag: noindex, nofollow, noarchive
+
+/api/pdfs/*
+  X-Robots-Tag: noindex, nofollow, noarchive
