@@ -1,0 +1,55 @@
+.formula-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.formula-card {
+  padding: 28px 26px;
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.88), rgba(10, 13, 20, 0.9));
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+}
+
+.formula-card h3 {
+  margin: 0 0 22px;
+  font-size: 1.35rem;
+}
+
+.formula-list {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+}
+
+.formula-item {
+  min-width: 0;
+}
+
+.formula-item dt {
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.formula-item dd {
+  margin: 0;
+}
+
+.formula-item code {
+  display: block;
+  overflow-wrap: anywhere;
+  padding: 11px 13px;
+  color: var(--text);
+  background: rgba(5, 10, 18, 0.7);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font: 0.88rem/1.6 "Cascadia Code", Consolas, monospace;
+}
+
+@media (max-width: 720px) {
+  .formula-grid {
+    grid-template-columns: 1fr;
+  }
+}

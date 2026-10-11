@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BAC SI - Premium Revision</title>
+  <meta name="description" content="Site premium de révision pour le Bac Tunisien Sciences de l'Informatique.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="formulas.css">
+  <link rel="stylesheet" href="suggestions.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand-wrap">
+        <span class="brand-mark">BAC</span>
+        <div>
+          <p class="brand-name">Bac SI</p>
+          <p class="brand-sub">Premium revision</p>
+        </div>
+      </div>
+      <nav class="main-nav" aria-label="Navigation principale">
+        <a href="#overview">Accueil</a>
+        <a href="#subjects">Matières</a>
+        <a href="#formulas">Formules</a>
+        <a href="#sources">Ressources</a>
+        <a href="#suggestions">Suggestions</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="overview" class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Baccalauréat Tunisien</p>
+          <h1>Révision claire, rapide et premium.</h1>
+          <p>
+            Une plateforme minimaliste pour revoir les notions clés, ouvrir les fiches utiles et consulter les PDF de référence sans distraction.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-btn" href="#subjects">Voir les matières</a>
+            <a class="secondary-btn" href="#sources">Voir les ressources</a>
+          </div>
+        </div>
+        <div class="hero-panel">
+          <div class="mini-card">
+            <span>Mathématiques</span>
+            <strong>9 chapitres</strong>
+          </div>
+          <div class="mini-card">
+            <span>Algorithmique</span>
+            <strong>Simulations</strong>
+          </div>
+          <div class="mini-card">
+            <span>Bases de données</span>
+            <strong>SQL + SGBD</strong>
+          </div>
+          <div class="mini-card">
+            <span>Physique</span>
+            <strong>Révisions</strong>
+          </div>
+        </div>
+      </section>
+
+      <section id="subjects" class="section-block">
+        <div class="section-heading">
+          <p class="eyebrow">Matières</p>
+          <h2>Les sections essentielles</h2>
+        </div>
+
+        <div class="card-grid">
+          <article class="info-card">
+            <h3>Mathématiques</h3>
+            <ul>
+              <li>Suites</li>
+              <li>Limites et continuité</li>
+              <li>Dérivabilité</li>
+              <li>Intégrales</li>
+            </ul>
+            <button class="card-btn" data-pdf="resume_maths_bac_info.pdf" data-title="Mathématiques">Ouvrir le PDF</button>
+          </article>
+
+          <article class="info-card">
+            <h3>Algorithmique</h3>
+            <ul>
+              <li>Recherches</li>
+              <li>Tri</li>
+              <li>Structures</li>
+              <li>Algorithmes classiques</li>
+            </ul>
+            <button class="card-btn" data-pdf="resume_algorithmique_bac_info_trimestre1.pdf" data-title="Algorithmique">Ouvrir le PDF</button>
+          </article>
+
+          <article class="info-card">
+            <h3>Bases de données</h3>
+            <ul>
+              <li>Modèle relationnel</li>
+              <li>SQL</li>
+              <li>SGBD</li>
+              <li>Requêtes</li>
+            </ul>
+            <button class="card-btn" data-pdf="Guide_Bac_Tunisien_SI_BDD_FR.pdf" data-title="Bases de données">Ouvrir le PDF</button>
+          </article>
+
+          <article class="info-card">
+            <h3>Physique</h3>
+            <ul>
+              <li>Rappels de cours</li>
+              <li>Notions clés</li>
+              <li>Exercices</li>
+              <li>Révision rapide</li>
+            </ul>
+            <button class="card-btn" data-pdf="resume_physique_bac_info_trimestre1.pdf" data-title="Physique">Ouvrir le PDF</button>
+          </article>
+        </div>
+      </section>
+
+      <section id="formulas" class="section-block formula-section">
+        <div class="section-heading">
+          <p class="eyebrow">À retenir</p>
+          <h2>Formules essentielles</h2>
+        </div>
+        <div id="formulaGrid" class="formula-grid"></div>
+      </section>
+
+      <section class="preview-section">
+        <div class="section-heading">
+          <p class="eyebrow">Aperçu</p>
+          <h2>Lecteur PDF</h2>
+        </div>
+        <div class="viewer-shell">
+          <div class="viewer-header">
+            <span id="viewerTitle">Mathématiques</span>
+          </div>
+          <iframe id="pdfFrame" title="PDF preview" src="resume_maths_bac_info.pdf"></iframe>
+        </div>
+      </section>
+
+      <section id="sources" class="section-block">
+        <div class="section-heading">
+          <p class="eyebrow">Ressources</p>
+          <h2>Tout le matériel disponible</h2>
+        </div>
+
+        <div class="source-grid">
+          <a class="source-card" href="resume_maths_bac_info.pdf" target="_blank" rel="noopener noreferrer">
+            <span>Mathématiques</span>
+            <strong>Résumé</strong>
+          </a>
+          <a class="source-card" href="resume_algorithmique_bac_info_trimestre1.pdf" target="_blank" rel="noopener noreferrer">
+            <span>Algorithmique</span>
+            <strong>Trimestre 1</strong>
+          </a>
+          <a class="source-card" href="resume_bases_de_donnees.pdf" target="_blank" rel="noopener noreferrer">
+            <span>Bases de données</span>
+            <strong>Résumé</strong>
+          </a>
+          <a class="source-card" href="guide_revision_bac_info_bases_de_donnees.pdf" target="_blank" rel="noopener noreferrer">
+            <span>Bases de données</span>
+            <strong>Guide</strong>
+          </a>
+          <a class="source-card" href="Guide_Complet_Bac_SI_Tunisie.pdf" target="_blank" rel="noopener noreferrer">
+            <span>Guide complet</span>
+            <strong>Bac SI</strong>
+          </a>
+          <a class="source-card" href="Guide_Bac_Tunisien_SI_BDD_FR.pdf" target="_blank" rel="noopener noreferrer">
+            <span>Bases de données</span>
+            <strong>FR</strong>
+          </a>
+          <a class="source-card" href="resume_physique_bac_info_trimestre1.pdf" target="_blank" rel="noopener noreferrer">
+            <span>Physique</span>
+            <strong>Trimestre 1</strong>
+          </a>
+        </div>
+      </section>
+
+      <section id="suggestions" class="section-block suggestion-section">
+        <div id="suggestionBox"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+  <script src="formulas.js"></script>
+  <script src="suggestions.js"></script>
+</body>
+</html>

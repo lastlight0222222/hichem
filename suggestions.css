@@ -1,0 +1,74 @@
+.suggestion-section {
+  max-width: 760px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.suggestion-card {
+  padding: 28px;
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.88), rgba(10, 13, 20, 0.9));
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+}
+
+.suggestion-form {
+  display: grid;
+  gap: 18px;
+}
+
+.suggestion-form label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.suggestion-form input,
+.suggestion-form textarea {
+  width: 100%;
+  padding: 13px 14px;
+  color: var(--text);
+  background: rgba(5, 10, 18, 0.7);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font: inherit;
+}
+
+.suggestion-form input:focus,
+.suggestion-form textarea:focus {
+  outline: 2px solid rgba(165, 243, 252, 0.55);
+  outline-offset: 2px;
+}
+
+.suggestion-form textarea {
+  resize: vertical;
+}
+
+.suggestion-form .primary-btn {
+  justify-self: start;
+}
+
+.suggestion-form .primary-btn:disabled {
+  cursor: wait;
+  opacity: 0.65;
+  transform: none;
+}
+
+.suggestion-note,
+.suggestion-status {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.suggestion-status {
+  color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .suggestion-card {
+    padding: 20px;
+  }
+}

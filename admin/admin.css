@@ -1,0 +1,107 @@
+.admin-shell {
+  width: min(100% - 40px, 1000px);
+  margin: 0 auto;
+  padding: 72px 0 100px;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.admin-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  letter-spacing: -0.05em;
+}
+
+.admin-status {
+  min-height: 1.5em;
+  color: var(--muted);
+}
+
+.admin-list {
+  display: grid;
+  gap: 18px;
+}
+
+.admin-card {
+  padding: 24px;
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.88), rgba(10, 13, 20, 0.9));
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+.admin-card h2 {
+  margin: 8px 0;
+  font-size: 1.25rem;
+}
+
+.admin-card p {
+  color: var(--muted);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.admin-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.admin-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.admin-controls select {
+  min-height: 44px;
+  padding: 8px 12px;
+  color: var(--text);
+  background: var(--panel-strong);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.admin-controls button {
+  min-height: 44px;
+  padding: 9px 14px;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.admin-controls button:hover {
+  border-color: var(--primary);
+}
+
+.admin-empty {
+  padding: 36px 24px;
+  color: var(--muted);
+  text-align: center;
+  border: 1px dashed var(--line);
+  border-radius: 18px;
+}
+
+@media (max-width: 640px) {
+  .admin-shell {
+    width: min(100% - 28px, 1000px);
+    padding-top: 38px;
+  }
+
+  .admin-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
