@@ -2,7 +2,7 @@ const pdfUploadForm = document.getElementById('pdfUploadForm');
 const pdfUploadButton = document.getElementById('pdfUploadButton');
 const pdfUploadStatus = document.getElementById('pdfUploadStatus');
 const pdfAdminList = document.getElementById('pdfAdminList');
-const maxPdfBytes = 25 * 1024 * 1024;
+const maxPdfBytes = 4 * 1024 * 1024;
 
 function createAdminPdfElement(tagName, className, text) {
   const element = document.createElement(tagName);
@@ -49,7 +49,7 @@ function createAdminPdfCard(pdf) {
 
       card.remove();
       pdfUploadStatus.textContent = result.storageCleanupPending
-        ? 'Le PDF a été retiré du site, mais son stockage doit être nettoyé dans R2.'
+        ? 'Le PDF a été retiré du site, mais le nettoyage du stockage est en attente.'
         : 'PDF supprimé.';
 
       if (!pdfAdminList.querySelector('.admin-card')) {
@@ -93,7 +93,7 @@ pdfUploadForm.addEventListener('submit', async (event) => {
   }
 
   if (file.size > maxPdfBytes) {
-    pdfUploadStatus.textContent = 'Le PDF dépasse la limite de 25 Mo.';
+    pdfUploadStatus.textContent = 'Le PDF dépasse la limite de 4 Mo.';
     return;
   }
 

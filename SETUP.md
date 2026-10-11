@@ -1,76 +1,40 @@
-# Cloudflare Pages setup
+# Netlify setup
 
-The admin page is at `/admin/` and is not linked from the public navigation. Its URL is not a security boundary: protect the page and admin API with Cloudflare Access, and set the Access environment values below so the API verifies the signed identity token too.
+This site uses Netlify Functions for suggestions, admin login, and PDF uploads. Netlify Blobs stores suggestions and uploaded PDFs; uploaded PDF data is not placed in the public site folder. Published files are served through a Netlify Function on the site's hostname.
 
-## 1. Create D1 storage
+## Deploy from GitHub
 
-Create a D1 database named `bac-si-suggestions` in the Cloudflare dashboard. Apply `migrations/0001_initial.sql` to that database using the D1 console or Wrangler:
+1. In Netlify, choose **Add new site** → **Import an existing project** and connect the GitHub repository.
+2. Choose the `main` branch.
+3. Set the base directory to the repository root. Netlify reads the build command, publish directory, and function directory from `netlify.toml`.
+4. Deploy the site.
 
-```powershell
-npx wrangler d1 execute bac-si-suggestions --remote --file=migrations\0001_initial.sql
-```
+## Configure environment variables
 
-In the Pages project settings, add a D1 database binding named `DB` and select `bac-si-suggestions`. Add the binding to both production and preview environments if previews should be usable.
+In the Netlify site, go to **Site configuration** → **Environment variables** and add:
 
-Apply the second migration to create the PDF metadata table:
+- `ADMIN_PASSWORD`: a long, unique administrator password.
+- `ADMIN_SESSION_SECRET`: a randomly generated secret of at least 32 characters.
+- `DISCORD_WEBHOOK_URL`: an optional Discord webhook URL, stored as a secret. Rotate the webhook previously shared in chat before using it.
 
-```powershell
-npx wrangler d1 execute bac-si-suggestions --remote --file=migrations\0002_pdf_resources.sql
-```
+For a secure PowerShell-generated session secret, run `node -e "console.log(require('node:crypto').randomBytes(48).toString('base64url'))"` locally and copy the output directly into Netlify's environment-variable settings. Do not commit credentials or put them in frontend files.
 
-## 2. Configure PDF storage
+Redeploy after changing environment variables.
 
-Create a private R2 bucket named `bac-si-pdfs`. In the Pages project settings, add an R2 bucket binding named exactly `PDF_BUCKET` and select that bucket. Do not enable public bucket access or connect a public custom domain to the bucket. Uploaded objects are stored under the bucket's `private-pdfs/` key prefix; this is an R2 folder-like prefix, not a public folder in the website repository. The Pages Function reads and serves published files through the Cloudflare Pages hostname.
+## Admin panel
 
-The Access-protected admin page at `/admin/` accepts PDF files up to 25 MB. It checks the declared file type and PDF header before storing the file. Uploaded PDFs are published immediately in the public Resources section and are readable through the site's Cloudflare hostname. Deleting a PDF in admin removes it from the list and deletes its R2 object. Existing bundled PDF files in the repository remain normal public static assets.
+Open `https://<your-site>.netlify.app/admin/` and enter `ADMIN_PASSWORD`. The server sets an HTTP-only, secure, same-site session cookie. The panel lets you upload PDFs, review suggestions, update suggestion status, and delete records.
 
-## 3. Configure the Discord webhook secret
+Configure `ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET` before publishing. The function endpoints independently verify the signed session; an unlisted admin URL is not an access control.
 
-Delete or regenerate the webhook URL that was shared in chat. Add the replacement to the Pages project as a secret environment variable named `DISCORD_WEBHOOK_URL`. Never put the URL in website files or commit it.
+## PDF uploads and data
 
-## 4. Configure Cloudflare Access
+Netlify Blobs is provisioned automatically for deployed Netlify functions. PDF blobs are stored in the site's private `bac-si-content` store, not in a public folder or a direct public bucket. The public resource page lists published PDFs, which are streamed through the site-hosted function endpoint. Uploads are limited to 4 MB to stay below Netlify's synchronous function request limits.
 
-Create a self-hosted Access application for the deployed hostname. Add path policies covering both `/admin*` and `/api/admin/*`, and allow only your own Cloudflare Access identity. Protecting only the page is not sufficient; the admin API must be behind the same policy.
+Netlify Blobs also stores suggestions and uploaded-PDF metadata. Data persists between site deploys. Deleting an uploaded PDF from the admin panel removes its metadata and file blob.
 
-In the Pages project environment variables, set:
+PDFs already included in the repository remain public static files. Only PDFs uploaded through the admin panel are stored privately.
 
-- `ACCESS_TEAM_DOMAIN`: your team domain, for example `my-team.cloudflareaccess.com` without `https://`
-- `ACCESS_AUD`: the audience tag shown in the Access application settings
+## Local development
 
-The admin API independently validates the Access JWT signature, issuer, audience, and expiry. Do not use a public bypass policy for the admin API.
-
-## 5. Deploy and test
-
-Deploy the directory as a Cloudflare Pages project with Functions enabled, using Git integration or Wrangler. Cloudflare dashboard drag-and-drop Direct Upload does not deploy Pages Functions. With Wrangler, use:
-
-```powershell
-npx wrangler pages deploy . --project-name=<PAGES_PROJECT_NAME>
-```
-
-For local development, bind a local D1 database and provide local secrets through Wrangler's `.dev.vars` file, which must not be committed:
-
-```text
-DISCORD_WEBHOOK_URL=your-rotated-webhook-url
-ACCESS_TEAM_DOMAIN=your-team.cloudflareaccess.com
-ACCESS_AUD=your-access-application-audience
-```
-
-Bind a local D1 database and R2 bucket when starting Pages dev. Apply both migrations to the local D1 database. For example, with a local database ID:
-
-```powershell
-npx wrangler pages dev . --d1 DB=<D1_DATABASE_ID> --r2 PDF_BUCKET=bac-si-pdfs --port 8788
-```
-
-Open `http://localhost:8788`, not the `index.html` or `admin/index.html` file directly. Opening the page through `file://` or a static-only server cannot run the Pages Functions and causes API requests to fail. Local admin API requests also require a valid Cloudflare Access JWT, so test admin login and management on a deployed preview protected by the Access application.
-
-Suggestions and PDF metadata are stored in D1. Uploaded PDF files are stored privately in R2. Suggestions and PDFs remain available until deleted from the admin page. Discord notification delivery is tracked separately so a temporary webhook failure does not discard a suggestion.
-
-For local Pages development, replace the binding value with the D1 database ID:
-
-```powershell
-npx wrangler pages dev . --d1 DB=<D1_DATABASE_ID>
-```
-
-Add a Cloudflare rate-limiting rule for `POST /api/suggestions` on the production hostname, for example 5 requests per minute per IP, to reduce automated spam.
-
-Consider adding a rate limit for `POST /api/admin/pdfs` as an additional safeguard against accidental repeated uploads and unexpected R2 usage.
+Install dependencies with `npm install`, add `ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET` to a local `.env` file (optionally add `DISCORD_WEBHOOK_URL`), then run `npx --yes netlify-cli dev --offline`. The `.env` file is ignored by Git. The offline Netlify CLI provides the local site, functions, and Blobs emulator.

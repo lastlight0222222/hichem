@@ -1,0 +1,70 @@
+.admin-header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-login-panel {
+  max-width: 520px;
+  margin: 56px auto;
+  padding: 30px;
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.88), rgba(10, 13, 20, 0.9));
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+.admin-login-panel h2 {
+  margin: 0;
+}
+
+.admin-login-panel > p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.admin-login-form,
+.admin-login-form label {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-login-form label {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.admin-login-form input {
+  width: 100%;
+  min-height: 46px;
+  padding: 11px 12px;
+  color: var(--text);
+  background: rgba(5, 10, 18, 0.7);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font: inherit;
+}
+
+.admin-login-form .primary-btn {
+  justify-self: start;
+}
+
+.admin-login-form button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.admin-login-panel .admin-status {
+  margin-bottom: 0;
+}
+
+@media (max-width: 640px) {
+  .admin-header-actions {
+    width: 100%;
+  }
+
+  .admin-login-panel {
+    padding: 22px;
+  }
+}

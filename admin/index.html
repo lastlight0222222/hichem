@@ -7,6 +7,7 @@
   <title>Administration - Bac SI</title>
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="admin-auth.css">
 </head>
 <body>
   <main class="admin-shell">
@@ -15,12 +16,28 @@
         <p class="eyebrow">Espace privé</p>
         <h1>Administration</h1>
       </div>
-      <a class="secondary-btn" href="/">Retour au site</a>
+      <div class="admin-header-actions">
+        <button id="adminLogoutButton" class="secondary-btn" type="button" hidden>Se déconnecter</button>
+        <a class="secondary-btn" href="/">Retour au site</a>
+      </div>
     </header>
+    <section id="adminLoginPanel" class="admin-login-panel">
+      <h2>Connexion administrateur</h2>
+      <p>Connectez-vous pour gérer les PDF et les suggestions.</p>
+      <form id="adminLoginForm" class="admin-login-form">
+        <label>
+          Mot de passe
+          <input name="password" type="password" autocomplete="current-password" required>
+        </label>
+        <button id="adminLoginButton" class="primary-btn" type="submit">Se connecter</button>
+      </form>
+      <p id="adminLoginStatus" class="admin-status" role="status" aria-live="polite"></p>
+    </section>
+    <div id="adminContent" hidden>
     <section class="admin-section">
       <p class="eyebrow">Ressources</p>
       <h2>Ajouter un PDF</h2>
-      <p class="admin-description">Les nouveaux fichiers seront publiés dans les ressources du site. Taille maximale : 25 Mo.</p>
+      <p class="admin-description">Les nouveaux fichiers seront publiés dans les ressources du site. Taille maximale : 4 Mo.</p>
       <form id="pdfUploadForm" class="pdf-upload-form">
         <label>
           Titre
@@ -49,9 +66,9 @@
       <p id="suggestionStatus" class="admin-status" role="status" aria-live="polite">Chargement des suggestions…</p>
       <section id="suggestionList" class="admin-list" aria-label="Suggestions"></section>
     </section>
+    </div>
   </main>
   <script src="admin-api.js"></script>
-  <script src="admin.js"></script>
-  <script src="admin-pdfs.js"></script>
+  <script src="admin-auth.js"></script>
 </body>
 </html>

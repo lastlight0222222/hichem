@@ -1,3 +1,9 @@
 .dev.vars
 .dev.vars.*
 .wrangler/
+.netlify/
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
