@@ -69,51 +69,8 @@
           <h2>Les sections essentielles</h2>
         </div>
 
-        <div class="card-grid">
-          <article class="info-card">
-            <h3>Mathématiques</h3>
-            <ul>
-              <li>Suites</li>
-              <li>Limites et continuité</li>
-              <li>Dérivabilité</li>
-              <li>Intégrales</li>
-            </ul>
-            <button class="card-btn" data-pdf="resume_maths_bac_info.pdf" data-title="Mathématiques">Ouvrir le PDF</button>
-          </article>
-
-          <article class="info-card">
-            <h3>Algorithmique</h3>
-            <ul>
-              <li>Recherches</li>
-              <li>Tri</li>
-              <li>Structures</li>
-              <li>Algorithmes classiques</li>
-            </ul>
-            <button class="card-btn" data-pdf="resume_algorithmique_bac_info_trimestre1.pdf" data-title="Algorithmique">Ouvrir le PDF</button>
-          </article>
-
-          <article class="info-card">
-            <h3>Bases de données</h3>
-            <ul>
-              <li>Modèle relationnel</li>
-              <li>SQL</li>
-              <li>SGBD</li>
-              <li>Requêtes</li>
-            </ul>
-            <button class="card-btn" data-pdf="Guide_Bac_Tunisien_SI_BDD_FR.pdf" data-title="Bases de données">Ouvrir le PDF</button>
-          </article>
-
-          <article class="info-card">
-            <h3>Physique</h3>
-            <ul>
-              <li>Rappels de cours</li>
-              <li>Notions clés</li>
-              <li>Exercices</li>
-              <li>Révision rapide</li>
-            </ul>
-            <button class="card-btn" data-pdf="resume_physique_bac_info_trimestre1.pdf" data-title="Physique">Ouvrir le PDF</button>
-          </article>
-        </div>
+        <p id="lessonStatus" class="admin-status" role="status" aria-live="polite">Chargement des leçons…</p>
+        <div id="lessonGrid" class="card-grid"></div>
       </section>
 
       <section id="formulas" class="section-block formula-section">
@@ -133,7 +90,7 @@
           <div class="viewer-header">
             <span id="viewerTitle">Mathématiques</span>
           </div>
-          <iframe id="pdfFrame" title="PDF preview" src="resume_maths_bac_info.pdf"></iframe>
+          <iframe id="pdfFrame" title="PDF preview" src="about:blank"></iframe>
         </div>
       </section>
 
@@ -143,37 +100,8 @@
           <h2>Tout le matériel disponible</h2>
         </div>
 
-        <div class="source-grid">
-          <a class="source-card" href="resume_maths_bac_info.pdf" target="_blank" rel="noopener noreferrer">
-            <span>Mathématiques</span>
-            <strong>Résumé</strong>
-          </a>
-          <a class="source-card" href="resume_algorithmique_bac_info_trimestre1.pdf" target="_blank" rel="noopener noreferrer">
-            <span>Algorithmique</span>
-            <strong>Trimestre 1</strong>
-          </a>
-          <a class="source-card" href="resume_bases_de_donnees.pdf" target="_blank" rel="noopener noreferrer">
-            <span>Bases de données</span>
-            <strong>Résumé</strong>
-          </a>
-          <a class="source-card" href="guide_revision_bac_info_bases_de_donnees.pdf" target="_blank" rel="noopener noreferrer">
-            <span>Bases de données</span>
-            <strong>Guide</strong>
-          </a>
-          <a class="source-card" href="Guide_Complet_Bac_SI_Tunisie.pdf" target="_blank" rel="noopener noreferrer">
-            <span>Guide complet</span>
-            <strong>Bac SI</strong>
-          </a>
-          <a class="source-card" href="Guide_Bac_Tunisien_SI_BDD_FR.pdf" target="_blank" rel="noopener noreferrer">
-            <span>Bases de données</span>
-            <strong>FR</strong>
-          </a>
-          <a class="source-card" href="resume_physique_bac_info_trimestre1.pdf" target="_blank" rel="noopener noreferrer">
-            <span>Physique</span>
-            <strong>Trimestre 1</strong>
-          </a>
-          <div id="uploadedPdfResources" class="uploaded-pdf-resources"></div>
-        </div>
+        <p id="pdfResourceStatus" class="admin-status" role="status" aria-live="polite">Chargement des ressources…</p>
+        <div id="pdfResources" class="source-grid"></div>
       </section>
 
       <section id="suggestions" class="section-block suggestion-section">

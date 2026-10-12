@@ -1,24 +1,21 @@
-import { requireSession } from '../lib/auth.mjs';
-import { jsonResponse, methodNotAllowed, originAllowed } from '../lib/http.mjs';
+import { requireSession, requireUploadSession } from '../lib/auth.mjs';
+import { jsonResponse, methodNotAllowed, originAllowed, readJson } from '../lib/http.mjs';
+import { getLessons, getHiddenPdfIds, listAdminPdfs } from '../lib/pdf-catalog.mjs';
 import { contentStore, getJson, listRecords } from '../lib/storage.mjs';
 
 const maxPdfBytes = 4 * 1024 * 1024;
 const validPdfId = id => /^[0-9a-f-]{36}$/i.test(id);
 
 export default async function handler(request) {
-  const authError = requireSession(request, process.env);
+  const authError = request.method === 'POST'
+    ? requireUploadSession(request, process.env)
+    : requireSession(request, process.env);
   if (authError) return authError;
 
   const store = contentStore();
   if (request.method === 'GET') {
     try {
-      const blobs = await listRecords(store, 'pdfs/');
-      const pdfs = (await Promise.all(
-        blobs.filter(blob => blob.key.endsWith('/metadata')).map(blob => getJson(store, blob.key))
-      ))
-        .filter(Boolean)
-        .sort((a, b) => b.created_at.localeCompare(a.created_at));
-      return jsonResponse({ pdfs });
+      return jsonResponse({ pdfs: await listAdminPdfs(store) });
     } catch (error) {
       console.error('Could not load admin PDF list:', error.message);
       return jsonResponse({ error: 'Could not load published PDFs.' }, 503);
@@ -101,6 +98,9 @@ export default async function handler(request) {
     const fileKey = `pdfs/${id}/file`;
     try {
       if (!await getJson(store, metadataKey)) return jsonResponse({ error: 'PDF not found.' }, 404);
+      if ((await getLessons(store)).some(lesson => lesson.pdfId === id)) {
+        return jsonResponse({ error: 'Remove or change the lesson using this PDF before deleting it.' }, 409);
+      }
       await store.delete(metadataKey);
       try {
         await store.delete(fileKey);
@@ -115,5 +115,54 @@ export default async function handler(request) {
     }
   }
 
-  return methodNotAllowed(['GET', 'POST', 'DELETE']);
+  if (request.method === 'PATCH') {
+    if (!originAllowed(request)) return jsonResponse({ error: 'Origin not allowed.' }, 403);
+    const data = await readJson(request, 8192);
+    if (!data || typeof data.id !== 'string') return jsonResponse({ error: 'A valid PDF ID is required.' }, 400);
+
+    try {
+      if (typeof data.published === 'boolean') {
+        const catalog = await listAdminPdfs(store);
+        if (!catalog.some(pdf => pdf.id === data.id)) return jsonResponse({ error: 'PDF not found.' }, 404);
+
+        const lessons = await getLessons(store);
+        if (!data.published && lessons.some(lesson => lesson.pdfId === data.id)) {
+          return jsonResponse({ error: 'Change the lesson using this PDF before hiding it.' }, 409);
+        }
+
+        const hiddenIds = await getHiddenPdfIds(store);
+        const updatedIds = data.published
+          ? hiddenIds.filter(id => id !== data.id)
+          : [...new Set([...hiddenIds, data.id])];
+        await store.set('site/hidden-pdfs', JSON.stringify(updatedIds));
+        return jsonResponse({ ok: true, published: data.published });
+      }
+
+      if (
+        !validPdfId(data.id) ||
+        typeof data.title !== 'string' || !data.title.trim() || data.title.trim().length > 100 ||
+        typeof data.subject !== 'string' || !data.subject.trim() || data.subject.trim().length > 80 ||
+        typeof data.description !== 'string' || data.description.length > 240
+      ) {
+        return jsonResponse({ error: 'A valid PDF ID, title, subject, and description are required.' }, 400);
+      }
+
+      const key = `pdfs/${data.id}/metadata`;
+      const pdf = await getJson(store, key);
+      if (!pdf) return jsonResponse({ error: 'PDF not found.' }, 404);
+      const updatedPdf = {
+        ...pdf,
+        title: data.title.trim(),
+        subject: data.subject.trim(),
+        description: data.description.trim()
+      };
+      await store.set(key, JSON.stringify(updatedPdf));
+      return jsonResponse({ ok: true, pdf: updatedPdf });
+    } catch (error) {
+      console.error('Could not update PDF metadata:', error.message);
+      return jsonResponse({ error: 'Could not update PDF details.' }, 503);
+    }
+  }
+
+  return methodNotAllowed(['GET', 'POST', 'PATCH', 'DELETE']);
 }

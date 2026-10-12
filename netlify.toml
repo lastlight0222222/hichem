@@ -17,14 +17,39 @@
   status = 200
 
 [[redirects]]
+  from = "/api/lessons"
+  to = "/.netlify/functions/lessons"
+  status = 200
+
+[[redirects]]
   from = "/api/pdfs/:id"
   to = "/.netlify/functions/pdf?id=:id"
   status = 200
 
-[[redirects]]
-  from = "/api/admin-login"
-  to = "/.netlify/functions/admin-login"
-  status = 200
+  [[redirects]]
+    from = "/api/admin/lessons"
+    to = "/.netlify/functions/admin-lessons"
+    status = 200
+
+  [[redirects]]
+    from = "/api/admin-login"
+    to = "/.netlify/functions/admin-login"
+    status = 200
+
+  [[redirects]]
+    from = "/api/teacher-login"
+    to = "/.netlify/functions/teacher-login"
+    status = 200
+
+  [[redirects]]
+    from = "/api/teacher-session"
+    to = "/.netlify/functions/teacher-session"
+    status = 200
+
+  [[redirects]]
+    from = "/api/teacher-logout"
+    to = "/.netlify/functions/teacher-logout"
+    status = 200
 
 [[redirects]]
   from = "/api/admin-session"
@@ -56,5 +81,10 @@
 
 [[headers]]
   for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+
+[[headers]]
+  for = "/teachers/*"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow, noarchive"

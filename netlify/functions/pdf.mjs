@@ -3,7 +3,8 @@ import { contentStore, getJson } from '../lib/storage.mjs';
 
 export default async function handler(request) {
   if (request.method !== 'GET') return methodNotAllowed(['GET']);
-  const id = new URL(request.url).searchParams.get('id') || '';
+  const url = new URL(request.url);
+  const id = url.searchParams.get('id') || url.pathname.match(/^\/api\/pdfs\/([^/]+)\/?$/)?.[1] || '';
   if (!/^[0-9a-f-]{36}$/i.test(id)) return jsonResponse({ error: 'PDF not found.' }, 404);
 
   try {

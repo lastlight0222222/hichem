@@ -13,14 +13,7 @@ const publicFiles = [
   'public-pdfs.js',
   'public-pdfs.css',
   'suggestions.js',
-  'suggestions.css',
-  'Guide_Bac_Tunisien_SI_BDD_FR.pdf',
-  'Guide_Complet_Bac_SI_Tunisie.pdf',
-  'guide_revision_bac_info_bases_de_donnees.pdf',
-  'resume_algorithmique_bac_info_trimestre1.pdf',
-  'resume_bases_de_donnees.pdf',
-  'resume_maths_bac_info.pdf',
-  'resume_physique_bac_info_trimestre1.pdf'
+  'suggestions.css'
 ];
 const adminFiles = [
   'index.html',
@@ -29,10 +22,15 @@ const adminFiles = [
   'admin-auth.css',
   'admin.js',
   'admin-pdfs.js',
+  'admin-lessons.js',
   'admin.css'
 ];
+const teacherFiles = ['index.html', 'teacher.js'];
 
 rmSync(output, { recursive: true, force: true });
 mkdirSync(join(output, 'admin'), { recursive: true });
+mkdirSync(join(output, 'teachers'), { recursive: true });
 publicFiles.forEach(file => cpSync(join(root, file), join(output, file)));
 adminFiles.forEach(file => cpSync(join(root, 'admin', file), join(output, 'admin', file)));
+teacherFiles.forEach(file => cpSync(join(root, 'teachers', file), join(output, 'teachers', file)));
+cpSync(join(root, 'pdfs'), join(output, 'pdfs'), { recursive: true });

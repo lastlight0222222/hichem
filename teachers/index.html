@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>Espace enseignant - Bac SI</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../admin/admin.css">
+  <link rel="stylesheet" href="../admin/admin-auth.css">
+</head>
+<body>
+  <main class="admin-shell">
+    <header class="admin-header">
+      <div>
+        <p class="eyebrow">Espace réservé aux enseignants</p>
+        <h1>Téléverser un PDF</h1>
+      </div>
+      <div class="admin-header-actions">
+        <button id="teacherLogoutButton" class="secondary-btn" type="button" hidden>Se déconnecter</button>
+        <a class="secondary-btn" href="/">Retour au site</a>
+      </div>
+    </header>
+    <section id="teacherLoginPanel" class="admin-login-panel">
+      <h2>Connexion enseignant</h2>
+      <p>Connectez-vous avec le mot de passe enseignant pour publier un document.</p>
+      <form id="teacherLoginForm" class="admin-login-form">
+        <label>
+          Mot de passe enseignant
+          <input name="password" type="password" autocomplete="current-password" required>
+        </label>
+        <button id="teacherLoginButton" class="primary-btn" type="submit">Se connecter</button>
+      </form>
+      <p id="teacherLoginStatus" class="admin-status" role="status" aria-live="polite"></p>
+    </section>
+    <section id="teacherContent" class="admin-section" hidden>
+      <p class="admin-description">Le PDF sera publié dans les ressources. L’administrateur peut ensuite l’associer à une leçon. Taille maximale : 4 Mo.</p>
+      <form id="teacherUploadForm" class="pdf-upload-form">
+        <label>
+          Titre
+          <input name="title" type="text" maxlength="100" placeholder="Ex. Résumé des nombres complexes" required>
+        </label>
+        <label>
+          Matière
+          <input name="subject" type="text" maxlength="80" placeholder="Ex. Mathématiques" required>
+        </label>
+        <label>
+          Description (facultatif)
+          <textarea name="description" rows="2" maxlength="240" placeholder="Quelques mots sur le document"></textarea>
+        </label>
+        <label>
+          Fichier PDF
+          <input name="file" type="file" accept="application/pdf,.pdf" required>
+        </label>
+        <button id="teacherUploadButton" class="primary-btn" type="submit">Téléverser le PDF</button>
+      </form>
+      <p id="teacherUploadStatus" class="admin-status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+  <script src="teacher.js"></script>
+</body>
+</html>

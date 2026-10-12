@@ -23,7 +23,7 @@
     </header>
     <section id="adminLoginPanel" class="admin-login-panel">
       <h2>Connexion administrateur</h2>
-      <p>Connectez-vous pour gérer les PDF et les suggestions.</p>
+      <p>Connectez-vous pour gérer les leçons, les PDF et les suggestions.</p>
       <form id="adminLoginForm" class="admin-login-form">
         <label>
           Mot de passe
@@ -35,9 +35,31 @@
     </section>
     <div id="adminContent" hidden>
     <section class="admin-section">
+      <p class="eyebrow">Leçons</p>
+      <h2>Gérer les matières et les leçons</h2>
+      <p class="admin-description">Ajoutez, modifiez ou supprimez les leçons visibles sur la page d’accueil.</p>
+      <form id="lessonCreateForm" class="pdf-upload-form">
+        <label>
+          Titre de la leçon
+          <input name="title" type="text" maxlength="100" placeholder="Ex. Mathématiques" required>
+        </label>
+        <label>
+          PDF associé
+          <select name="pdfId" required></select>
+        </label>
+        <label>
+          Chapitres (un par ligne)
+          <textarea name="topics" rows="4" maxlength="2400" placeholder="Suites&#10;Limites et continuité"></textarea>
+        </label>
+        <button class="primary-btn" type="submit">Ajouter une leçon</button>
+      </form>
+      <p id="lessonAdminStatus" class="admin-status" role="status" aria-live="polite"></p>
+      <section id="lessonAdminList" class="admin-list" aria-label="Leçons du site"></section>
+    </section>
+    <section class="admin-section">
       <p class="eyebrow">Ressources</p>
-      <h2>Ajouter un PDF</h2>
-      <p class="admin-description">Les nouveaux fichiers seront publiés dans les ressources du site. Taille maximale : 4 Mo.</p>
+      <h2>Gérer les ressources PDF</h2>
+      <p class="admin-description">Les administrateurs peuvent téléverser ici. Les enseignants disposent aussi de leur page dédiée <code>/teachers/</code>.</p>
       <form id="pdfUploadForm" class="pdf-upload-form">
         <label>
           Titre

@@ -10,7 +10,7 @@ function loadAdminScripts() {
   if (adminScriptsLoaded) return;
   adminScriptsLoaded = true;
 
-  ['admin.js', 'admin-pdfs.js'].forEach((source) => {
+  ['admin.js', 'admin-pdfs.js', 'admin-lessons.js'].forEach((source) => {
     const script = document.createElement('script');
     script.src = source;
     script.onerror = () => {

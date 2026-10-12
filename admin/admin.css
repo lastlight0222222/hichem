@@ -109,6 +109,40 @@
   overflow-wrap: anywhere;
 }
 
+.admin-card input,
+.admin-card textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 11px 12px;
+  color: var(--text);
+  background: rgba(5, 10, 18, 0.7);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font: inherit;
+}
+
+.admin-card textarea {
+  resize: vertical;
+}
+
+.lesson-edit-field {
+  display: block;
+  margin: 14px 0 8px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.pdf-edit-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.pdf-edit-fields textarea {
+  grid-column: 1 / -1;
+}
+
 .admin-meta {
   display: flex;
   flex-wrap: wrap;
@@ -170,5 +204,9 @@
   .pdf-upload-form {
     grid-template-columns: 1fr;
     padding: 18px;
+  }
+
+  .pdf-edit-fields {
+    grid-template-columns: 1fr;
   }
 }
